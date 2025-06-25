@@ -1,9 +1,7 @@
 'use client';
 
-import * as React from 'react';
-import RouterLink from 'next/link';
-import { useRouter } from 'next/navigation';
-import { zodResolver } from '@hookform/resolvers/zod';
+import { loginUser } from "@/apiClient/authAPI";
+import useAuthStore from "@/store/auth-store";
 import Alert from '@mui/material/Alert';
 import Button from '@mui/material/Button';
 import FormControl from '@mui/material/FormControl';
@@ -15,59 +13,80 @@ import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import { EyeIcon } from '@phosphor-icons/react/dist/ssr/Eye';
 import { EyeSlashIcon } from '@phosphor-icons/react/dist/ssr/EyeSlash';
-import { Controller, useForm } from 'react-hook-form';
-import { z as zod } from 'zod';
+import RouterLink from 'next/link';
+import { useRouter } from 'next/navigation';
+import * as React from 'react';
+import { useState } from 'react';
 
 import { paths } from '@/paths';
-import { authClient } from '@/lib/auth/client';
-import { useUser } from '@/hooks/use-user';
-
-const schema = zod.object({
-  email: zod.string().min(1, { message: 'Email is required' }).email(),
-  password: zod.string().min(1, { message: 'Password is required' }),
-});
-
-type Values = zod.infer<typeof schema>;
-
-const defaultValues = { email: 'sofia@devias.io', password: 'Secret1' } satisfies Values;
+import { toast } from 'sonner';
 
 export function SignInForm(): React.JSX.Element {
   const router = useRouter();
+  const updateUser = useAuthStore((state) => state.updateUser);
 
-  const { checkSession } = useUser();
+  const [formData, setFormData] = useState({ email: '', password: '' });
+  const [errors, setErrors] = useState<{ email?: string; password?: string; root?: string }>({});
+  const [showPassword, setShowPassword] = useState(false);
+  const [isPending, setIsPending] = useState(false);
 
-  const [showPassword, setShowPassword] = React.useState<boolean>();
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  };
 
-  const [isPending, setIsPending] = React.useState<boolean>(false);
+  const validateForm = () => {
+    const newErrors: typeof errors = {};
+    if (!formData.email) {
+      newErrors.email = 'Email is required';
+    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
+      newErrors.email = 'Invalid email format';
+    }
 
-  const {
-    control,
-    handleSubmit,
-    setError,
-    formState: { errors },
-  } = useForm<Values>({ defaultValues, resolver: zodResolver(schema) });
+    if (!formData.password) {
+      newErrors.password = 'Password is required';
+    }
 
-  const onSubmit = React.useCallback(
-    async (values: Values): Promise<void> => {
-      setIsPending(true);
+    return newErrors;
+  };
 
-      const { error } = await authClient.signInWithPassword(values);
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const validationErrors = validateForm();
 
-      if (error) {
-        setError('root', { type: 'server', message: error });
-        setIsPending(false);
-        return;
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors);
+      return;
+    }
+
+    setIsPending(true);
+    setErrors({});
+
+      const response = await loginUser(formData);
+      setIsPending(false);
+
+
+      if (response.error) {
+        toast.error(response.error, {
+          style: {
+            border: "none",
+            color: "red",
+            backgroundColor: 'white'
+          },
+        });
+      } else {
+        toast.success("Login Successful", {
+          description: "Taking you to dashboard",
+          style: {
+            border: "none",
+            color: "green",
+          },
+        });
+
+        // update user state and route to dashboard
+        updateUser(response.user);
+        router.push(`/dashboard`);
       }
-
-      // Refresh the auth state
-      await checkSession?.();
-
-      // UserProvider, for this case, will not refresh the router
-      // After refresh, GuestGuard will handle the redirect
-      router.refresh();
-    },
-    [checkSession, router, setError]
-  );
+  };
 
   return (
     <Stack spacing={4}>
@@ -80,74 +99,66 @@ export function SignInForm(): React.JSX.Element {
           </Link>
         </Typography>
       </Stack>
-      <form onSubmit={handleSubmit(onSubmit)}>
+
+      <form onSubmit={handleSubmit}>
         <Stack spacing={2}>
-          <Controller
-            control={control}
-            name="email"
-            render={({ field }) => (
-              <FormControl error={Boolean(errors.email)}>
-                <InputLabel>Email address</InputLabel>
-                <OutlinedInput {...field} label="Email address" type="email" />
-                {errors.email ? <FormHelperText>{errors.email.message}</FormHelperText> : null}
-              </FormControl>
-            )}
-          />
-          <Controller
-            control={control}
-            name="password"
-            render={({ field }) => (
-              <FormControl error={Boolean(errors.password)}>
-                <InputLabel>Password</InputLabel>
-                <OutlinedInput
-                  {...field}
-                  endAdornment={
-                    showPassword ? (
-                      <EyeIcon
-                        cursor="pointer"
-                        fontSize="var(--icon-fontSize-md)"
-                        onClick={(): void => {
-                          setShowPassword(false);
-                        }}
-                      />
-                    ) : (
-                      <EyeSlashIcon
-                        cursor="pointer"
-                        fontSize="var(--icon-fontSize-md)"
-                        onClick={(): void => {
-                          setShowPassword(true);
-                        }}
-                      />
-                    )
-                  }
-                  label="Password"
-                  type={showPassword ? 'text' : 'password'}
-                />
-                {errors.password ? <FormHelperText>{errors.password.message}</FormHelperText> : null}
-              </FormControl>
-            )}
-          />
+          {/* Email Field */}
+          <FormControl error={Boolean(errors.email)}>
+            <InputLabel>Email address</InputLabel>
+            <OutlinedInput
+              name="email"
+              label="Email address"
+              type="email"
+              value={formData.email}
+              onChange={handleChange}
+            />
+            {errors.email && <FormHelperText>{errors.email}</FormHelperText>}
+          </FormControl>
+
+          {/* Password Field */}
+          <FormControl error={Boolean(errors.password)}>
+            <InputLabel>Password</InputLabel>
+            <OutlinedInput
+              name="password"
+              label="Password"
+              type={showPassword ? 'text' : 'password'}
+              value={formData.password}
+              onChange={handleChange}
+              endAdornment={
+                showPassword ? (
+                  <EyeIcon
+                    cursor="pointer"
+                    fontSize="var(--icon-fontSize-md)"
+                    onClick={() => setShowPassword(false)}
+                  />
+                ) : (
+                  <EyeSlashIcon
+                    cursor="pointer"
+                    fontSize="var(--icon-fontSize-md)"
+                    onClick={() => setShowPassword(true)}
+                  />
+                )
+              }
+            />
+            {errors.password && <FormHelperText>{errors.password}</FormHelperText>}
+          </FormControl>
+
+          {/* Forgot Password */}
           <div>
             <Link component={RouterLink} href={paths.auth.resetPassword} variant="subtitle2">
               Forgot password?
             </Link>
           </div>
-          {errors.root ? <Alert color="error">{errors.root.message}</Alert> : null}
-          <Button disabled={isPending} type="submit" variant="contained">
-            Sign in
+
+          {/* Server Error */}
+          {errors.root && <Alert severity="error">{errors.root}</Alert>}
+
+          {/* Submit Button */}
+          <Button type="submit" variant="contained" disabled={isPending}>
+            {isPending ? 'Signing in...' : 'Sign in'}
           </Button>
         </Stack>
       </form>
-      <Alert color="warning">
-        Use{' '}
-        <Typography component="span" sx={{ fontWeight: 700 }} variant="inherit">
-          sofia@devias.io
-        </Typography>{' '}
-        with password{' '}
-        <Typography component="span" sx={{ fontWeight: 700 }} variant="inherit">
-          Secret1
-        </Typography>
-      </Alert>
     </Stack>
   );
 }

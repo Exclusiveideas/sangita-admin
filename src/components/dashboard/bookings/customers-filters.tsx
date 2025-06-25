@@ -1,14 +1,21 @@
-import * as React from 'react';
 import Card from '@mui/material/Card';
 import InputAdornment from '@mui/material/InputAdornment';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import { MagnifyingGlassIcon } from '@phosphor-icons/react/dist/ssr/MagnifyingGlass';
+import * as React from 'react';
 
-export function CustomersFilters(): React.JSX.Element {
+// customers-filters.tsx
+interface CustomersFiltersProps {
+  searchTerm: string;
+  onSearchChange: (value: string) => void;
+}
+
+export function CustomersFilters({ searchTerm, onSearchChange }: CustomersFiltersProps): React.JSX.Element {
   return (
     <Card sx={{ p: 2 }}>
       <OutlinedInput
-        defaultValue=""
+        value={searchTerm}
+        onChange={(e) => onSearchChange(e.target.value)}
         fullWidth
         placeholder="Search customer"
         startAdornment={
