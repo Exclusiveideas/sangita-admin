@@ -1,14 +1,13 @@
-import * as React from 'react';
-import type { Metadata } from 'next';
 import Grid from '@mui/material/Grid';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
+import type { Metadata } from 'next';
+import * as React from 'react';
 
-import { config } from '@/config';
 import { AccountDetailsForm } from '@/components/dashboard/account/account-details-form';
 import { AccountInfo } from '@/components/dashboard/account/account-info';
 
-export const metadata = { title: `Account | Dashboard | ${config.site.name}` } satisfies Metadata;
+export const metadata = { title: `Account | Dashboard | Prostrategic-H` } satisfies Metadata;
 
 export default function Page(): React.JSX.Element {
   return (

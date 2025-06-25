@@ -6,14 +6,15 @@ import Typography from '@mui/material/Typography';
 import { DownloadIcon } from '@phosphor-icons/react/dist/ssr/Download';
 import * as React from 'react';
 
+import { fetchAllBookingsAPI } from "@/apiClient/bookingsAPI";
 import { CustomersFilters } from '@/components/dashboard/bookings/customers-filters';
 import { CustomersTable } from '@/components/dashboard/bookings/customers-table';
 import { downloadCSV } from "@/helpers/booking";
+import { Metadata } from 'next';
 import { useEffect, useState } from 'react';
 import { toast } from 'sonner';
 
-// export const metadata = { title: `Customers | Dashboard | ${config.site.name}` } satisfies Metadata;
-import { fetchAllBookingsAPI } from "@/apiClient/bookingsAPI";
+export const metadata = { title: `Bookings | Dashboard | Prostrategic-H` } satisfies Metadata;
 
 export default function Page(): React.JSX.Element {
   const [page, setPage] = useState(0);

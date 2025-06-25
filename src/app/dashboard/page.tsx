@@ -3,7 +3,6 @@ import { redirect } from 'next/navigation';
 // import Grid from '@mui/material/Grid';
 // import dayjs from 'dayjs';
 
-import { config } from '@/config';
 // import { Budget } from '@/components/dashboard/overview/budget';
 // import { LatestOrders } from '@/components/dashboard/overview/latest-orders';
 // import { LatestProducts } from '@/components/dashboard/overview/latest-products';
@@ -13,7 +12,7 @@ import { config } from '@/config';
 // import { TotalProfit } from '@/components/dashboard/overview/total-profit';
 // import { Traffic } from '@/components/dashboard/overview/traffic';
 
-export const metadata = { title: `Overview | Dashboard | ${config.site.name}` } satisfies Metadata;
+export const metadata = { title: `Overview | Dashboard | Prostrategic-H` } satisfies Metadata;
 
 // export default function Page(): React.JSX.Element {
   // return (
