@@ -7,7 +7,6 @@ import { DownloadIcon } from '@phosphor-icons/react/dist/ssr/Download';
 import * as React from 'react';
 
 import { CustomersFilters } from '@/components/dashboard/bookings/customers-filters';
-import type { BookingCustomer } from '@/components/dashboard/bookings/customers-table';
 import { CustomersTable } from '@/components/dashboard/bookings/customers-table';
 import { downloadCSV } from "@/helpers/booking";
 import { useEffect, useState } from 'react';
@@ -22,7 +21,7 @@ export default function Page(): React.JSX.Element {
   const [searchTerm, setSearchTerm] = useState('');
 
 
-  const [bookings, setBookings] = useState<BookingCustomer[]>([]);
+  const [bookings, setBookings] = useState<any[]>([]);
 
   const mappedRows = bookings.map((b) => ({
     id: b._id,
@@ -132,6 +131,6 @@ export default function Page(): React.JSX.Element {
   );
 }
 
-function applyPagination(rows: Customer[], page: number, rowsPerPage: number): Customer[] {
+function applyPagination(rows: any[], page: number, rowsPerPage: number): any[] {
   return rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
 }

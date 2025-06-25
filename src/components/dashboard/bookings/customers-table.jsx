@@ -18,35 +18,6 @@ import * as React from 'react';
 
 import { useSelection } from '@/hooks/use-selection';
 
-function noop(): void {
-  // do nothing
-}
-
-export interface BookingCustomer {
-  _id: string;
-  firstName: string;
-  lastName: string;
-  email: string;
-  phoneNumber: string;
-  country: string;
-  city: string;
-  organization: string;
-  website: string;
-  workshops: string;
-  message: string;
-  createdAt: string;
-}
-
-
-interface CustomersTableProps {
-  count?: number;
-  page?: number;
-  rows?: Customer[];
-  rowsPerPage?: number;
-  onPageChange?: (event: unknown, newPage: number) => void;
-  onRowsPerPageChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
-}
-
 
 export function CustomersTable({
   count = 0,
@@ -55,7 +26,7 @@ export function CustomersTable({
   rowsPerPage = 0,
   onPageChange,
   onRowsPerPageChange,
-}: CustomersTableProps): React.JSX.Element {
+}) {
   const rowIds = React.useMemo(() => {
     return rows.map((customer) => customer.id);
   }, [rows]);

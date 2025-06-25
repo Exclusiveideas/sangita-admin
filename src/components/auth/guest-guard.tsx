@@ -1,11 +1,9 @@
 'use client';
 
-import * as React from 'react';
-import { useRouter } from 'next/navigation';
 import Alert from '@mui/material/Alert';
+import { useRouter } from 'next/navigation';
+import * as React from 'react';
 
-import { paths } from '@/paths';
-import { logger } from '@/lib/default-logger';
 import { useUser } from '@/hooks/use-user';
 
 export interface GuestGuardProps {
@@ -27,11 +25,11 @@ export function GuestGuard({ children }: GuestGuardProps): React.JSX.Element | n
       return;
     }
 
-    if (user) {
-      logger.debug('[GuestGuard]: User is logged in, redirecting to dashboard');
-      router.replace(paths.dashboard.overview);
-      return;
-    }
+    // if (user) {
+    //   logger.debug('[GuestGuard]: User is logged in, redirecting to dashboard');
+    //   router.replace(paths.dashboard.overview);
+    //   return;
+    // }
 
     setIsChecking(false);
   };
