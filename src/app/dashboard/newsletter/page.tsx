@@ -10,11 +10,10 @@ import { fetchAllNewsletterAPI } from "@/apiClient/newsletterAPI";
 import { CustomersFilters } from '@/components/dashboard/newsletter/customers-filters';
 import { CustomersTable } from '@/components/dashboard/newsletter/customers-table';
 import { downloadCSV } from "@/helpers/booking"; // Reuse the same CSV utility
-import { Metadata } from 'next';
 import { useEffect, useState } from 'react';
 import { toast } from 'sonner';
 
-export const metadata = { title: `Newsletter | Dashboard | Prostrategic-H` } satisfies Metadata;
+// export const metadata = { title: `Newsletter | Dashboard | Prostrategic-H` } satisfies Metadata;
 
 export default function Page(): React.JSX.Element {
   const [page, setPage] = useState(0);

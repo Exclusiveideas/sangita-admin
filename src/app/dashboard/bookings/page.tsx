@@ -10,11 +10,10 @@ import { fetchAllBookingsAPI } from "@/apiClient/bookingsAPI";
 import { CustomersFilters } from '@/components/dashboard/bookings/customers-filters';
 import { CustomersTable } from '@/components/dashboard/bookings/customers-table';
 import { downloadCSV } from "@/helpers/booking";
-import { Metadata } from 'next';
 import { useEffect, useState } from 'react';
 import { toast } from 'sonner';
 
-export const metadata = { title: `Bookings | Dashboard | Prostrategic-H` } satisfies Metadata;
+// export const metadata = { title: `Bookings | Dashboard | Prostrategic-H` } satisfies Metadata;
 
 export default function Page(): React.JSX.Element {
   const [page, setPage] = useState(0);
