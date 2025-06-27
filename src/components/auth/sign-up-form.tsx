@@ -13,14 +13,13 @@ import RouterLink from 'next/link';
 import { useRouter } from 'next/navigation';
 import * as React from 'react';
 
-import { createUser } from '@/apiClient/authAPI';
 import { paths } from '@/paths';
 import useAuthStore from '@/store/auth-store';
-import { toast } from 'sonner';
-import IconButton from '@mui/material/IconButton';
-import InputAdornment from '@mui/material/InputAdornment';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import IconButton from '@mui/material/IconButton';
+import InputAdornment from '@mui/material/InputAdornment';
+import { toast } from 'sonner';
 
 
 type FormValues = {
@@ -89,29 +88,29 @@ export function SignUpForm(): React.JSX.Element {
     }
 
 
-    setIsPending(true);
-    setErrors({});
+    // setIsPending(true);
+    // setErrors({});
 
-    const response = await createUser(formData);
-    setIsPending(false);
+    // const response = await createUser(formData);
+    // setIsPending(false);
 
-    if (response.error) {
-      toast.error(response.error, {
-        style: { border: 'none', color: 'red' },
-      });
-      setErrors({ root: response.error });
-      return;
-    }
+    // if (response.error) {
+    //   toast.error(response.error, {
+    //     style: { border: 'none', color: 'red' },
+    //   });
+    //   setErrors({ root: response.error });
+    //   return;
+    // }
 
-    toast.success('Account created!', {
-      description: 'Redirecting...',
-      style: { border: 'none', color: 'green' },
-    });
+    // toast.success('Account created!', {
+    //   description: 'Redirecting...',
+    //   style: { border: 'none', color: 'green' },
+    // });
 
 
-    // update user state and route to dashboard
-    updateUser(response.user);
-    router.push(`/dashboard`);
+    // // update user state and route to dashboard
+    // updateUser(response.user);
+    // router.push(`/dashboard`);
   };
 
 
@@ -126,7 +125,7 @@ const handleTogglePassword = () => {
         <Typography variant="h4">Sign up</Typography>
         <Typography color="text.secondary" variant="body2">
           Already have an account?{' '}
-          <Link component={RouterLink} href={paths.auth.signIn} underline="hover" variant="subtitle2">
+          <Link component={RouterLink} href={paths.auth.signIn} underline="hover" variant="subtitle2" sx={{ color: '#4F0A3E'}}>
             Sign in
           </Link>
         </Typography>
@@ -200,7 +199,7 @@ const handleTogglePassword = () => {
           {errors.root && <Alert severity="error">{errors.root}</Alert>}
 
           {/* Submit */}
-          <Button disabled={isPending} type="submit" variant="contained">
+          <Button disabled={isPending} type="submit" variant="contained" sx={{ backgroundColor: '#4F0A3E'}}>
             {isPending ? 'Signing up...' : 'Sign up'}
           </Button>
         </Stack>

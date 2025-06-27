@@ -7,18 +7,15 @@ import Button from '@mui/material/Button';
 import FormControl from '@mui/material/FormControl';
 import FormHelperText from '@mui/material/FormHelperText';
 import InputLabel from '@mui/material/InputLabel';
-import Link from '@mui/material/Link';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import { EyeIcon } from '@phosphor-icons/react/dist/ssr/Eye';
 import { EyeSlashIcon } from '@phosphor-icons/react/dist/ssr/EyeSlash';
-import RouterLink from 'next/link';
 import { useRouter } from 'next/navigation';
 import * as React from 'react';
 import { useState } from 'react';
 
-import { paths } from '@/paths';
 import { toast } from 'sonner';
 
 export function SignInForm(): React.JSX.Element {
@@ -94,9 +91,9 @@ export function SignInForm(): React.JSX.Element {
         <Typography variant="h4">Sign in</Typography>
         <Typography color="text.secondary" variant="body2">
           Don&apos;t have an account?{' '}
-          <Link component={RouterLink} href={paths.auth.signUp} underline="hover" variant="subtitle2">
+          {/* <Link component={RouterLink} href={paths.auth.signUp} underline="hover" variant="subtitle2" sx={{ color: '#4F0A3E'}}>
             Sign up
-          </Link>
+          </Link> */}
         </Typography>
       </Stack>
 
@@ -144,17 +141,17 @@ export function SignInForm(): React.JSX.Element {
           </FormControl>
 
           {/* Forgot Password */}
-          <div>
+          {/* <div>
             <Link component={RouterLink} href={paths.auth.resetPassword} variant="subtitle2">
               Forgot password?
             </Link>
-          </div>
+          </div> */}
 
           {/* Server Error */}
           {errors.root && <Alert severity="error">{errors.root}</Alert>}
 
           {/* Submit Button */}
-          <Button type="submit" variant="contained" disabled={isPending}>
+          <Button sx={{ backgroundColor: '#4F0A3E'}} type="submit" variant="contained" disabled={isPending}>
             {isPending ? 'Signing in...' : 'Sign in'}
           </Button>
         </Stack>

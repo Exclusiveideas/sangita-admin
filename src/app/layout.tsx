@@ -7,7 +7,16 @@ import { LocalizationProvider } from '@/components/core/localization-provider';
 import { ThemeProvider } from '@/components/core/theme-provider/theme-provider';
 import { Toaster } from "@/components/ui/sonner";
 import { UserProvider } from '@/contexts/user-context';
-import Head from 'next/head';
+import { DM_Sans } from 'next/font/google';
+import Head from 'next/head'; // app/layout.tsx or app/layout.jsx
+
+const dmSans = DM_Sans({
+  subsets: ['latin'],
+  weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900'],
+  variable: '--font-dm-sans',
+  display: 'swap',
+});
+
 
 export const viewport = { width: 'device-width', initialScale: 1 } satisfies Viewport;
 
@@ -17,7 +26,7 @@ interface LayoutProps {
 
 export default function Layout({ children }: LayoutProps): React.JSX.Element {
   return (
-    <html lang="en">
+    <html lang="en" className={dmSans.variable}>
       <Head>
         {/* Standard Favicon */}
         <link rel="icon" type="image/x-icon" href="/favicon.ico" />

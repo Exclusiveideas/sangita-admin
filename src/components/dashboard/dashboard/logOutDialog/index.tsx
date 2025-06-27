@@ -41,12 +41,24 @@ const LogOutDialog = () => {
         </DialogContentText>
       </DialogContent>
       <DialogActions>
-        <Button onClick={closeDialog} variant="outlined">
+        <Button onClick={closeDialog} variant="outlined" 
+        sx={{
+          borderColor: '#35002F',
+          color: '#35002F'
+        }}>
           Not yet
         </Button>
-        <Button onClick={logOut} variant="contained" color="error" autoFocus>
+        <Button
+          onClick={logOut}
+           variant="contained"
+          sx={{
+            backgroundColor: '#35002F'
+          }}
+          autoFocus
+        >
           Yep, log me out
         </Button>
+
       </DialogActions>
     </Dialog>
   );
