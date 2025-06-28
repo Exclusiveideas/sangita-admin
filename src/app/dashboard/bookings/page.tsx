@@ -25,18 +25,23 @@ export default function Page(): React.JSX.Element {
 
   const mappedRows = bookings.map((b) => ({
     id: b._id,
-    avatar: '/assets/avatar-placeholder.png', // or generate from name
+    avatar: '/assets/avatar-placeholder.png',
     name: `${b.firstName} ${b.lastName}`,
     email: b.email,
     phone: b.phoneNumber,
     address: {
       city: b.city,
       country: b.country,
-      state: '', // not provided in booking data
+      state: '',
       street: '',
     },
+    organization: b.organization,
+    website: b.website,
+    workshops: b.workshops,
+    message: b.message,
     createdAt: new Date(b.createdAt),
   }));
+
 
 
   const filteredRows = mappedRows.filter((row) => {
@@ -52,18 +57,23 @@ export default function Page(): React.JSX.Element {
 
   const paginatedCustomers = applyPagination(filteredRows, page, rowsPerPage);
 
-  const handleExportClick = () => {
-    const exportData = filteredRows.map((row) => ({
-      Name: row.name,
-      Email: row.email,
-      Phone: row.phone,
-      City: row.address.city,
-      Country: row.address.country,
-      CreatedAt: row.createdAt.toISOString(),
-    }));
+const handleExportClick = () => {
+  const exportData = filteredRows.map((row) => ({
+    Name: row.name,
+    Email: row.email,
+    Phone: row.phone,
+    City: row.address.city,
+    Country: row.address.country,
+    Organization: row.organization,
+    Website: row.website,
+    Workshops: row.workshops,
+    Message: row.message,
+    CreatedAt: row.createdAt.toISOString(),
+  }));
 
-    downloadCSV(exportData, 'bookings.csv');
-  };
+  downloadCSV(exportData, 'bookings.csv');
+};
+
 
 
   useEffect(() => {

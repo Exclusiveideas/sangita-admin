@@ -57,42 +57,55 @@ export function CustomersTable({
               </TableCell>
               <TableCell>Name</TableCell>
               <TableCell>Email</TableCell>
-              <TableCell>Location</TableCell>
               <TableCell>Phone</TableCell>
+              <TableCell>Location</TableCell>
+              <TableCell>Organization</TableCell>
+              <TableCell>Website</TableCell>
+              <TableCell>Workshops</TableCell>
+              <TableCell>Message</TableCell>
               <TableCell>Signed Up</TableCell>
             </TableRow>
           </TableHead>
+
           <TableBody>
             {rows.map((row) => {
               const isSelected = selected?.has(row.id);
 
-              return (
-                <TableRow hover key={row.id} selected={isSelected}>
-                  <TableCell padding="checkbox">
-                    <Checkbox
-                      checked={isSelected}
-                      onChange={(event) => {
-                        if (event.target.checked) {
-                          selectOne(row.id);
-                        } else {
-                          deselectOne(row.id);
-                        }
-                      }}
-                    />
-                  </TableCell>
-                  <TableCell>
-                    <Stack sx={{ alignItems: 'center' }} direction="row" spacing={2}>
-                      <Avatar src={row.avatar} />
-                      <Typography variant="subtitle2">{row.name}</Typography>
-                    </Stack>
-                  </TableCell>
-                  <TableCell>{row.email}</TableCell>
-                  <TableCell>
-                    {row.address.city}, {row.address.state}, {row.address.country}
-                  </TableCell>
-                  <TableCell>{row.phone}</TableCell>
-                  <TableCell>{dayjs(row.createdAt).format('MMM D, YYYY')}</TableCell>
-                </TableRow>
+              return (<TableRow hover key={row.id} selected={isSelected}>
+                <TableCell padding="checkbox">
+                  <Checkbox
+                    checked={isSelected}
+                    onChange={(event) => {
+                      if (event.target.checked) {
+                        selectOne(row.id);
+                      } else {
+                        deselectOne(row.id);
+                      }
+                    }}
+                  />
+                </TableCell>
+                <TableCell>
+                  <Stack sx={{ alignItems: 'center' }} direction="row" spacing={2}>
+                    <Avatar src={row.avatar} />
+                    <Typography variant="subtitle2">{row.name}</Typography>
+                  </Stack>
+                </TableCell>
+                <TableCell>{row.email}</TableCell>
+                <TableCell>{row.phone}</TableCell>
+                <TableCell>
+                  {row.address.city}, {row.address.state}, {row.address.country}
+                </TableCell>
+                <TableCell>{row.organization || '—'}</TableCell>
+                <TableCell>{row.website || '—'}</TableCell>
+                <TableCell>{row.workshops || '—'}</TableCell>
+                <TableCell>
+                  <Typography variant="body2" sx={{ whiteSpace: 'pre-wrap', maxWidth: 200 }}>
+                    {row.message || '—'}
+                  </Typography>
+                </TableCell>
+                <TableCell>{dayjs(row.createdAt).format('MMM D, YYYY')}</TableCell>
+              </TableRow>
+
               );
             })}
           </TableBody>
