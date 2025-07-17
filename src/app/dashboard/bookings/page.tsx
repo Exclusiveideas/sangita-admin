@@ -48,12 +48,12 @@ export default function Page(): React.JSX.Element {
   const filteredRows = mappedRows.filter((row) => {
     const search = searchTerm.toLowerCase();
     return (
-      row.name.toLowerCase().includes(search) ||
-      row.email.toLowerCase().includes(search) ||
-      row.phone.toLowerCase().includes(search) ||
-      row.address.city.toLowerCase().includes(search) ||
-      row.address.country.toLowerCase().includes(search) ||
-      row.zipCode.toLowerCase().includes(search)
+      row.name?.toLowerCase().includes(search) ||
+      row.email?.toLowerCase().includes(search) ||
+      row.phone?.toLowerCase().includes(search) ||
+      row.address?.city.toLowerCase().includes(search) ||
+      row.address?.country.toLowerCase().includes(search) ||
+      row.zipCode?.toLowerCase().includes(search)
     );
   });
 
