@@ -39,6 +39,7 @@ export default function Page(): React.JSX.Element {
     website: b.website,
     workshops: b.workshops,
     message: b.message,
+    zipCode: b.zipCode,
     createdAt: new Date(b.createdAt),
   }));
 
@@ -51,7 +52,8 @@ export default function Page(): React.JSX.Element {
       row.email.toLowerCase().includes(search) ||
       row.phone.toLowerCase().includes(search) ||
       row.address.city.toLowerCase().includes(search) ||
-      row.address.country.toLowerCase().includes(search)
+      row.address.country.toLowerCase().includes(search) ||
+      row.zipCode.toLowerCase().includes(search)
     );
   });
 
@@ -64,6 +66,7 @@ const handleExportClick = () => {
     Phone: row.phone,
     City: row.address.city,
     Country: row.address.country,
+    ZipCode: row.zipCode,
     Organization: row.organization,
     Website: row.website,
     Workshops: row.workshops,
@@ -79,6 +82,8 @@ const handleExportClick = () => {
   useEffect(() => {
     const fetchBookings = async () => {
       const sendResponse = await fetchAllBookingsAPI();
+
+      // console.log('response: ', sendResponse)
 
       if (sendResponse?.error) {
         toast.error(sendResponse?.error, {

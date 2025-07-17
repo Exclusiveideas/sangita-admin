@@ -3,7 +3,7 @@ import axios from "axios";
 import { toast } from "sonner";
 
 export const API = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_SERVER_URI,
+  baseURL: "https://backend.prostrategic-h.com/api",
   withCredentials: true, // 🔥 Ensures cookies are sent & received
 });
 

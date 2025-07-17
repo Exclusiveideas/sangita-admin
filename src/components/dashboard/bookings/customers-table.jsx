@@ -59,6 +59,7 @@ export function CustomersTable({
               <TableCell>Email</TableCell>
               <TableCell>Phone</TableCell>
               <TableCell>Location</TableCell>
+              <TableCell>Zip Code</TableCell>
               <TableCell>Organization</TableCell>
               <TableCell>Website</TableCell>
               <TableCell>Workshops</TableCell>
@@ -93,8 +94,9 @@ export function CustomersTable({
                 <TableCell>{row.email}</TableCell>
                 <TableCell>{row.phone}</TableCell>
                 <TableCell>
-                  {row.address.city}, {row.address.state}, {row.address.country}
+                  {row.address.city}, {row.address.country}
                 </TableCell>
+                <TableCell>{row.zipCode || '—'}</TableCell>
                 <TableCell>{row.organization || '—'}</TableCell>
                 <TableCell>{row.website || '—'}</TableCell>
                 <TableCell>{row.workshops || '—'}</TableCell>
